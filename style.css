@@ -1,0 +1,102 @@
+body{
+    margin:0;
+    padding:0;
+ }
+.header{
+  background: #ab0a0a;
+  color: white;
+  font-size: 30px;
+  font-family: "Times New Roman", Times, serif;
+  width: 100%;
+}
+#logo{
+  margin-left: 10%;
+  width: 50px;
+  margin-top:10px;
+  float:left;
+}
+h1{
+  display: inline-block;
+  font-weight: normal;
+  font-size: 30px;
+}
+h2{
+  margin-left: 10%;
+  font-size: 50px;
+  font-weight: normal;
+}
+#navbar{
+  width:100%;
+  background: rgb(60,64,61);
+  height: 60px;
+}
+#first-link{
+  margin-left: 10%;
+}
+.navbarlink{
+  color: white;
+  font-size: 15px;
+  font-family: sans-serif;
+  margin-left: 20px;
+  text-decoration: none;
+  line-height: 60px;
+}
+.navbarlink:hover{
+  text-decoration: underline;
+}
+h3{
+  text-align: center;
+  font-size: 30px;
+}
+.blurb{
+  margin: auto;
+  width: 700px;
+  padding-bottom: 20px;
+}
+h4{
+  margin: auto;
+  width: 700px;
+  padding-top: 20px;
+}
+#masklink{
+  margin: auto;
+  width: 700px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table{table-layout: fixed;
+  width: 700px;
+  margin: auto;
+}
+
+th{
+  background-color: rgb(60,64,61);
+  color: white;
+}
+#chart_div{
+  width: 700px;
+  margin: auto;
+  padding-top: 50px;
+}
+.dashboard{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 700px;
+}
+ul{
+  width: 700px;
+  margin: auto;
+}
+li{
+  padding: 3px;
+}
+#maskReqs{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+}

@@ -1,0 +1,150 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Mask Monitor Module</title>
+    <link href="style.css" type="text/css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+    var idArray=[];
+    var countArray=[];
+
+    function getData() {
+        return new Promise((resolve, reject) => {
+            $(document).ready(function() {
+                var api_gateway_url = "https://iy5arn7olk.execute-api.us-east-2.amazonaws.com/dev";
+                $.get(api_gateway_url, function(data){
+                    data.forEach(function(item){
+                      idArray.push(item['id']);
+                      countArray.push(item['noMaskCount']);
+                    })
+                    resolve(idArray, countArray);
+                })
+            })
+        })
+    }
+      const promise = getData();
+      promise.then((idArray, countArray) => {
+        google.charts.load('current', {packages: ['corechart', 'bar']})
+        google.charts.setOnLoadCallback(drawBasic);
+      });
+
+      function drawBasic() {
+        var data = new google.visualization.arrayToDataTable([
+        ['Location', 'Number', {role:'style'}],
+        [idArray[0], countArray[0], 'blue'],
+        [idArray[1], countArray[1], 'red'],
+        [idArray[2], countArray[2], 'grey']
+        ]);
+        var options = {
+          title: 'Mask Violations by Location',
+          hAxis: {
+            title: 'Location',
+            format: 'h:mm a',
+            viewWindow: {
+              min: [7, 30, 0],
+              max: [17, 30, 0]}
+          },
+          vAxis: {title: 'Number of Unmasked People'},
+          legend: {position: "none"}
+        };
+        var chart = new google.visualization.ColumnChart(
+          document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
+</head>
+<body>
+
+  <div class="header">
+    <image src="logo.png" id="logo"/>
+    <h1>Washington University in St. Louis</h1>
+  </div>
+
+  <h2>WashU Together: COVID-19 Response</h2>
+
+  <div id="navbar">
+    <a href="https://covid19.wustl.edu/washu-together-fall-plan/" target="_blank" class="navbarlink" id="first-link">Fall 2020</a>
+    <a href="https://covid19.wustl.edu/health-safety/" target="_blank" class="navbarlink">Health & Safety</a>
+    <a href="https://covid19.wustl.edu/academics-student-life/" target="_blank" class="navbarlink">Academics & Student Life</a>
+    <a href="https://covid19.wustl.edu/operations/" target="_blank" class="navbarlink">HR & Policies</a>
+    <a href="https://covid19.wustl.edu/covid-19-faqs/" target="_blank" class="navbarlink">FAQs</a>
+  </div>
+
+  <h3>Danforth Campus Mask Monitoring Dashboard</h3>
+  <p class="blurb">This dashboard shows the results on ongoing surveillance and enforecment of mask wearing
+    by all members of the Danforth Campus with the purpose of stopping the spread of COVID-19.
+    Mask Monitor Modules are placed around the Danforth Campus to enforce mask wearing and
+    collect data on mask wearing. Data is updated in real time upon refreshing the page. </p>
+
+  <h4>Importance of Mask Wearing</h4>
+  <p class="blurb">The Center for Disease Control has stated that mask wearing is the best way to prevent
+    the spread of COVID-19. Washington University is following the advice of the CDC and requiring all
+    students, faculty, and staff to wear masks on campus.
+  <a href="https://www.nytimes.com/interactive/2020/10/30/science/wear-mask-covid-particles-ul.html" target="_blank" id="masklink">Click here to find out how masks work</a>
+  </p>
+
+  <p id="loading">Loading...</p>
+  <div class="table-responsive">
+      <table class="table table-striped" style="display: none">
+        <tr>
+          <th>Location</th>
+          <th>Mask Count</th>
+          <th>No Mask Count</th>
+        </tr>
+      </table>
+  </div>
+  <div id="chart_div"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+          $(document).ready(function() {
+              var api_gateway_url = "https://iy5arn7olk.execute-api.us-east-2.amazonaws.com/dev"
+              var rows = [];
+              $.get(api_gateway_url, function(data){
+                  data.forEach(function(item){
+                      rows.push(`<tr>
+                        <td>${item['id']}</td>
+                        <td>${item['maskCount']}</td>
+                        <td>${item['noMaskCount']}</td>
+                      </tr>
+                      `);
+                  });
+                  $('table.table').append(rows.join()).show();
+                  $('#loading').hide();
+              });
+          });
+        </script>
+
+  <h4>Other Dashboards and Data</h4>
+  <a href="https://covid19.wustl.edu/danforth-campus-covid-19-dashboard/" target="_blank" class="dashboard">WashU Covid Cases Dashboard</a>
+  <a href="https://www.stlouis-mo.gov/covid-19/data/" target="_blank" class="dashboard">St. Louis Covid Data</a>
+  <a href="https://showmestrong.mo.gov/data/public-health/" target="_blank" class="dashboard">Missouri Covid Dashboard</a>
+
+  <h4>Washington University Mask Rules</h4>
+  <ul>
+    <li>All WashU personnel and visitors are required to wear a mask while on campus. This includes faculty, staff, students, trainees, contractors, vendors, and other visitors. </li>
+    <li>The face covering/mask should fit snugly over the mouth and nose.</li>
+    <li>Masks must be worn when inside Washington University buildings and garages.</li>
+    <li>Masks must be worn when outside on campus unless you are able to keep at least 6 feet between you and other people you do not live with.  For example, if you are walking on a busy sidewalk where you cannot separate from others by 6 feet, you must wear your mask.</li>
+    <li>Faculty and students will be required to wear a mask while teaching or attending in-person classes.  If students appear for class without a mask and do not have an approved accommodation, they will be asked to leave the class and not return until they are wearing a mask.</li>
+    <li>Instructors may use an approved alternative mask while teaching, if necessary for instruction of hearing-impaired students. </li>
+    <li>You may remove your mask while eating (be careful to keep at least 6 feet between you and others you do not live with).</li>
+    <li>If you are alone in a closed, individual office or your residence hall bedroom, you may remove your mask. </li>
+    <li>If you have a medical condition that may preclude wearing a mask, please contact Occupational Health if you are an employee or the Habif Health and Wellness Center if you are a student to discuss your condition and potential accommodations. </li>
+    <li>Children under the age of 2 do not have to wear a mask; however, in general, children shouldn’t be on campus at this time. </li>
+  </ul>
+  <h4>Taking Care of Your Mask</h4>
+  <ul>
+    <li>Wash cloth masks before first use and after every subsequent use. </li>
+    <li>Wash your hands before putting on the mask and after taking it off.</li>
+  </ul>
+  <h4>Allowed Mask Types</h4>
+  <p class="blurb">Gaiters, bandanas and any masks with valves are not adequate and should not be worn.
+  Surgical masks, N95 masks, or cloth masks with at least two layers of fabric are acceptable.</p>
+  <image src="MaskReqs.png" id="maskReqs"/>
+
+  </body>
+  </html>
